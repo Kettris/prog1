@@ -1,0 +1,27 @@
+#include <iostream>
+ 
+int main() {
+  int day; 
+    std::cout << "Enter day (1-7): ";
+    std::cin >> day;
+ 
+if(day==1)
+   std::cout<<"Monday Tuesday Wednesday Thursday Friday Saturday Sunday";
+else if(day==2)
+  std::cout<<"Tuesday Wednesday Thursday Friday Saturday Sunday";
+else if(day==3)
+  std::cout<<"Wednesday Thursday Friday Saturday Sunday";
+else if(day==4)
+  std::cout<<"Thursday Friday Saturday Sunday";
+else if(day==5)
+  std::cout<< "Friday Saturday Sunday";
+else if(day==6)
+  std::cout<<"Saturday Sunday";
+else if(day==7)
+  std::cout<<"Sunday";
+
+ while (day < 1 || day > 7) {
+    std::cout << "Invalid Day." << std::endl;
+    return 0;
+}
+}
