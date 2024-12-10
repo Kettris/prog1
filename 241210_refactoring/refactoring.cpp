@@ -3,24 +3,22 @@
 using namespace std;
 int main()
 {
-    double a[10]; // Массив для хранения элементов
-    // Ввод элементов массива
-    for (int i = 0; i < 10; i++){
+	const int size = 10;
+    double arr[size];
+    for (int i = 0; i < size; i++){
         cout << "Введите " << i + 1 << " элемент" << endl;
-        cin >> a[i];
+        cin >> arr[i];
     }
 
-    bool isIncreasing = true; // Флаг для проверки возрастающей последовательности
+    bool isIncreasing = true; 
 
-    // Проверка последовательности
-    for (int i = 0; i < 9; i++){ // Изменено условие, чтобы не выходить за пределы массива
-        if (a[i] > a[i + 1]){ // Если текущий элемент больше следующего
-            isIncreasing = false; // Устанавливаем флаг в false
-            break; // Прерываем цикл, если последовательность не возрастающая
+    for (int i = 0; i < size - 1; i++){ 
+        if (arr[i] > arr[i + 1]){ 
+            isIncreasing = false; 
+            break; 
         }
     }
 
-    // Вывод результата
     if (isIncreasing) {
         cout << "последовательность возрастает" << endl;
     }
