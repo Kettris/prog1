@@ -26,6 +26,7 @@ const Kate::MenuItem* Kate::pushkin(const MenuItem* current){
 	return current->parent;
 }
 
+
 const Kate::MenuItem* Kate::lermontov(const MenuItem* current){
 	std::cout << current->title << std::endl << std::endl;
 	return current->parent;
@@ -43,25 +44,26 @@ const Kate::MenuItem* Kate::main_menu(const MenuItem* current){
 
 
 const Kate::MenuItem* Kate::exit(const MenuItem* current) {
-	std::exit(0);
+	std::exit(1);
 }
 
-const Kate::MenuItem* Kate::(const MenuItem* current){
+const Kate::MenuItem* Kate::dubrovsky(const MenuItem* current){
 	std::cout << current->title << std::endl << std::endl;
 	return current->parent;
 }
 
-const Kate::MenuItem* Kate::lermontov(const MenuItem* current){
+const Kate::MenuItem* Kate::eugene onegin(const MenuItem* current){
 	std::cout << current->title << std::endl << std::endl;
 	return current->parent;
 }
 
-const Kate::MenuItem* Kate::krylov(const MenuItem* current){
+const Kate::MenuItem* Kate::winter evening(const MenuItem* current){
 	std::cout << current->title << std::endl << std::endl;
 	return current->parent;
 }
 
-const Kate::MenuItem* Kate::main_menu(const MenuItem* current){
+const Kate::MenuItem* Kate::main_menu(const MenuItem* current){  // ур 1
 	std::cout << current->title << std::endl << std::endl;
 	return current->parent->parent;
 }
+
