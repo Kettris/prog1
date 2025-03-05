@@ -1,75 +1,67 @@
-﻿#include "menu_items.hpp"
-
+#include "menu_items.hpp"
 #include "menu_functions.hpp"
 
-const Kate::MenuItem Kate::Pushkin = {
-	"1 - Читать Пушкина", Kate::pushkin, &Kate::READ
-};
-
-const Kate::MenuItem Kate::Lermontov = {
-	"2 - Читать Лермонтова", Kate::lermontov, &Kate::READ
-};
-
-const Kate::MenuItem Kate::Krylov = {
-	"3 - Читать Крылова", Kate::krylov, &Kate::READ
-};
-
-const Kate::MenuItem Kate::MAIN_MENU = {      // 0 ур
-	"0 - Выйти в главное меню", Kate::main_menu, &Kate::READ
-};
-
-
-const Kate::MenuItem Kate::Dubrovsky = {
-	"1 - Читать Пушкина", Kate::dubrovsky, &Kate::READ
-};
-
-const Kate::MenuItem Kate::Eugene Onegin = {
-	"2 - Читать Лермонтова", Kate::eugene onegin, &Kate::READ
-};
-
-const Kate::MenuItem Kate::Winter Evening  = {
-	"3 - Читать Крылова", Kate::winter evening, &Kate::READ
-};
-
-const Kate::MenuItem Kate::MAIN_MENU = {    // 1 ур 
-	"0 - Выйти в главное меню", Kate::main_menu, &Kate::READ
-};
-
-
-
-//анонимное пространство имен
-namespace {
-	const Kate::MenuItem* const read_children[] = {
-		&Kate::MAIN_MENU,  // переход на глав меню (ур 0) ??
-		&Kate::Pushkin, 
-		&Kate::Lermontov,
-		&Kate::Krylov
-		&Kate::MAIN_MENU, // переход на пред. меню (ур 1) ??
-		&Kate::Dubrovsky, 
-		&Kate::Eugene Onegin,
-		&Kate::Winter Evening
-	};
-	const int read_size = sizeof(read_children) / sizeof(read_children[0]);
+namespace Kate {
+const MenuItem* goBack(const MenuItem* currentMenu) {
+    return nullptr; 
 }
 
-const Kate::MenuItem Kate::READ = {
-	"1 - Русские писатели", Kate::read, &Kate::MAIN, read_children, read_size
+const MenuItem Dubrovsky = {
+    "Читать Дубровского", dubrovsky, nullptr, nullptr, 0
 };
 
-const Kate::MenuItem Kate::EXIT = {
-	"0 - Завершить чтение", Kate::exit, &Kate::MAIN
+const MenuItem Eugene_Onegin = {
+    "Читать Евгения Онегина", eugene_onegin, nullptr, nullptr, 0
 };
 
-const Kate::MenuItem Kate::READ = {
-	"3 - Произведения Пушкина", Kate::read, &Kate::MAIN, read_children, read_size
+const MenuItem Winter_Evening = {
+    "Читать Зимний вечер", winter_evening, nullptr, nullptr, 0
+};
+
+const MenuItem BACK_TO_PUSHKIN = {
+    "Вернуться назад", goBack, nullptr, nullptr, 0
 };
 
 namespace {
-	const Kate::MenuItem* const main_children[] = {&Kate::EXIT, &Kate::READ};
-	const int main_size = sizeof(main_children) / sizeof(main_children[0]);
+    const MenuItem* pushkin_children[] = {&Dubrovsky, &Eugene_Onegin, &Winter_Evening, &BACK_TO_PUSHKIN};
+    const int pushkin_size = sizeof(pushkin_children) / sizeof(pushkin_children[0]);
 }
 
-
-const Kate::MenuItem Kate::MAIN = {
-	nullptr, Kate::read, nullptr, main_children, main_size
+const MenuItem Pushkin = {
+    "Читать Пушкина", read, nullptr, pushkin_children, pushkin_size
 };
+
+const MenuItem Lermontov = {
+    "Читать Лермонтова", lermontov, nullptr, nullptr, 0
+};
+
+const MenuItem Krylov = {
+    "Читать Крылова", krylov, nullptr, nullptr, 0
+};
+
+const MenuItem MAIN_MENU = {
+    "Выйти в главное меню", goBack, nullptr, nullptr, 0
+};
+
+namespace {
+    const MenuItem* read_children[] = {&Pushkin, &Lermontov, &Krylov, &MAIN_MENU};
+    const int read_size = sizeof(read_children) / sizeof(read_children[0]);
+}
+
+const MenuItem READ = {
+    "Русские писатели", read, nullptr, read_children, read_size
+};
+
+const MenuItem EXIT = {
+    "Завершить чтение", exit, nullptr, nullptr, 0
+};
+
+namespace {
+    const MenuItem* main_children[] = {&READ, &EXIT};
+    const int main_size = sizeof(main_children) / sizeof(main_children[0]);
+}
+
+const MenuItem MAIN = {
+    "Главное меню", read, nullptr, main_children, main_size
+};
+}
