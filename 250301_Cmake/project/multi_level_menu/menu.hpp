@@ -1,14 +1,11 @@
 ﻿#pragma once
 
-namespace Mine {
-	struct MenuItem {
-		const char* const title;
-		const MenuItem* (*func)(const MenuItem* current);
-		
-		const MenuItem* parent;
-		
-		const MenuItem* const *children;
-		const int children_count;
-		
-	};
+namespace Kate {
+    struct MenuItem {
+        const char* title;
+        const MenuItem* (*action)(const MenuItem* current);
+        const MenuItem* parent;
+        int children_count = 0;
+        const MenuItem* children[4] = {nullptr};
+    };
 }

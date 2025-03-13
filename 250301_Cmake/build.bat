@@ -13,6 +13,6 @@ if not exist %BUILD_FOLDER% mkdir %BUILD_FOLDER%
 cd %BUILD_FOLDER%
 
 cmake -G %BUILD_TYPE% ../%SOURCE_FOLDER%
-cmake --build .
+
 
 copy ..\%SOURCE_FOLDER%\

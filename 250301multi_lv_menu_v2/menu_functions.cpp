@@ -1,61 +1,67 @@
-#include <cstdlib>
+﻿#include <cstdlib>
 #include <iostream>
-
 #include "menu_functions.hpp"
 
-namespace Kate {
-const MenuItem* read(const MenuItem* current) {
-    // Показать меню текущего уровня
+const Kate::MenuItem* Kate::exit_program(const MenuItem* current) {
+    std::exit(0);
+    return nullptr; 
+}
+
+const Kate::MenuItem* Kate::read(const MenuItem* current) {
     for (int i = 0; i < current->children_count; ++i) {
-        std::cout << i << ": " << current->children[i]->title << std::endl;               
+        std::cout << i + 1 << " - " << current->children[i]->title << std::endl;
     }
-    
+
     int user_input;
     std::cin >> user_input;
     std::cout << std::endl;
 
-    if (user_input >= 0 && user_input < current->children_count) {
-        const MenuItem* next = current->children[user_input]->func(current->children[user_input]);
-        return next; 
+    // Проверка на корректность ввода
+    if (user_input > 0 && user_input <= current->children_count) {
+        return current->children[user_input - 1];
     } else {
-        std::cout << "Неверный ввод. Попробуйте снова." << std::endl;
-        return current; // Вернуться к текущему меню
+        std::cout << "Некорректный ввод. Пожалуйста, выберите пункт меню из списка." << std::endl;
+        return current; // Возврат в меню
     }
 }
 
-const MenuItem* exit(const MenuItem* current) {
-    std::cout << "Завершение программы." << std::endl;
-    std::exit(0);
+const Kate::MenuItem* Kate::pushkin(const MenuItem* current) {
+    std::cout << "Вы выбрали: " << current->title << std::endl;
+    return current->parent;
 }
 
-const MenuItem* pushkin(const MenuItem* current) {
-    std::cout << "Вы выбрали Пушкина." << std::endl << std::endl;
-    return current; 
+const Kate::MenuItem* Kate::lermontov(const MenuItem* current) {
+    std::cout << "Вы выбрали: " << current->title << std::endl;
+    return current->parent;
 }
 
-const MenuItem* lermontov(const MenuItem* current) {
-    std::cout << "Вы выбрали Лермонтова." << std::endl << std::endl;
-    return current; 
+const Kate::MenuItem* Kate::krylov(const MenuItem* current) {
+    std::cout << "Вы выбрали: " << current->title << std::endl;
+    return current->parent;
 }
 
-const MenuItem* krylov(const MenuItem* current) {
-    std::cout << "Вы выбрали Крылова." << std::endl << std::endl;
-    return current; 
+const Kate::MenuItem* Kate::back_to_main_menu(const MenuItem* current) {
+    std::cout << "Возврат в главное меню." << std::endl;
+    return current->parent->parent; // Возврат
 }
 
-const MenuItem* dubrovsky(const MenuItem* current) {
-    std::cout << "Выбран: " << current->title << std::endl << std::endl;
-    return current;
+// 3 уровень
+const Kate::MenuItem* Kate::dubrovsky(const MenuItem* current) {
+    std::cout << "Вы выбрали: " << current->title << std::endl;
+    return current->parent;
 }
 
-const MenuItem* eugene_onegin(const MenuItem* current) {
-    std::cout << "Выбран: " << current->title << std::endl << std::endl;
-    return current;
+const Kate::MenuItem* Kate::eugene_onegin(const MenuItem* current) {
+    std::cout << "Вы выбрали: " << current->title << std::endl;
+    return current->parent;
 }
 
-const MenuItem* winter_evening(const MenuItem* current) {
-    std::cout << "Выбран: " << current->title << std::endl << std::endl;
-    return current;
+const Kate::MenuItem* Kate::winter_evening(const MenuItem* current) {
+    std::cout << "Вы выбрали: " << current->title << std::endl;
+    return current->parent;
 }
 
-} // namespace Kate
+const Kate::MenuItem* Kate::back(const MenuItem* current) {
+    std::cout << "Возврат на предыдущий уровень." << std::endl;
+    return current->parent;
+}

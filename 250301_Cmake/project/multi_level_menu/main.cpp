@@ -1,16 +1,12 @@
-﻿#include <clocale>
-#include <iostream>
-
-#include "menu.hpp"
+﻿#include <iostream>
 #include "menu_items.hpp"
-#include "menu_functions.hpp"
 
-int main(){
-	std::setlocale(LC_ALL, "");
+int main() {
+    const Kate::MenuItem* current_menu = &Kate::MAIN_MENU;
 
-	const Mine::MenuItem* current = &Mine::MAIN;
-	do{
-		current = current->func(current); 
-	} while (true);
-	return 0;
+    while (true) {
+        current_menu = current_menu->action(current_menu);
+    }
+
+    return 0;
 }

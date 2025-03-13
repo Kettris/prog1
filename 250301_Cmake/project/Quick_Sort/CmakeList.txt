@@ -1,0 +1,3 @@
+projects (Quick_Sort)
+
+add_execuable (${PROJECT_NAME} main.cpp)

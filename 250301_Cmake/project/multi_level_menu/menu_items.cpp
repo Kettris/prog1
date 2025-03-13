@@ -1,41 +1,49 @@
 ﻿#include "menu_items.hpp"
 #include "menu_functions.hpp"
 
-const Mine::MenuItem Mine::PUSHKIN = {
-	"1 - Читать Пушкина", Mine::pushkin, &Mine::READ
+// 3 уровень
+const Kate::MenuItem Kate::DUBROVSKY = {
+    "Читать Дубровского", Kate::dubrovsky, &Kate::PUSHKIN
+};
+const Kate::MenuItem Kate::EUGENE_ONEGIN = {
+    "Читать Евгения Онегина", Kate::eugene_onegin, &Kate::PUSHKIN
+};
+const Kate::MenuItem Kate::WINTER_EVENING = {
+    "Читать Зимний вечер", Kate::winter_evening, &Kate::PUSHKIN
+};
+//исправить
+const Kate::MenuItem Kate::BACK_TO_PUSH = {
+    "Вернуться назад", Kate::back, &Kate::RUSSIAN_WRITERS
 };
 
-const Mine::MenuItem Mine::LERMONTOV = {
-	"2 - Читать Лермонтова", Mine::lermontov, &Mine::READ
+const Kate::MenuItem Kate::PUSHKIN = {
+    "Читать Пушкина", Kate::read, &Kate::RUSSIAN_WRITERS,
+    4, {&Kate::DUBROVSKY, &Kate::EUGENE_ONEGIN, &Kate::WINTER_EVENING, &Kate::BACK_TO_PUSH}
 };
 
-const Mine::MenuItem Mine::KRYLOV = {
-	"3 - Читать Крылова", Mine::krylov, &Mine::READ
+const Kate::MenuItem Kate::LERMONTOV = {
+    "Читать Лермонтова", Kate::lermontov, &Kate::RUSSIAN_WRITERS
+};
+const Kate::MenuItem Kate::KRYLOV = {
+    "Читать Крылова", Kate::krylov, &Kate::RUSSIAN_WRITERS
 };
 
-const Mine::MenuItem Mine::MAIN_MENU = {
-	"0 - Выйти в главное меню", Mine::main_menu, &Mine::READ
+const Kate::MenuItem Kate::BACK_TO_MAIN = {
+    "Выйти в главное меню", Kate::back_to_main_menu, &Kate::RUSSIAN_WRITERS
 };
 
-namespace {
-	const Mine::MenuItem* const read_children[] = {&Mine::MAIN_MENU, &Mine::PUSHKIN, &Mine::LERMONTOV, &Mine::KRYLOV};
-	const int read_size = sizeof(read_children) / sizeof(read_children[0]);
-}
-
-const Mine::MenuItem Mine::READ = {
-	"1 - Русские писатели", Mine::read, &Mine::MAIN, read_children, read_size
+const Kate::MenuItem Kate::RUSSIAN_WRITERS = {
+    "Русские писатели", Kate::read, &Kate::MAIN_MENU,
+    4, {&Kate::PUSHKIN, &Kate::LERMONTOV, &Kate::KRYLOV, &Kate::BACK_TO_MAIN}
 };
 
-const Mine::MenuItem Mine::EXIT = {
-	"0 - Завершить чтение", Mine::exit, &Mine::MAIN
+const Kate::MenuItem Kate::EXIT = {
+    "Завершить чтение", Kate::exit_program, &Kate::MAIN_MENU
 };
 
-namespace {
-	const Mine::MenuItem* const main_children[] = {&Mine::EXIT, &Mine::READ};
-	const int main_size = sizeof(main_children) / sizeof(main_children[0]);
-}
-
-
-const Mine::MenuItem Mine::MAIN = {
-	nullptr, Mine::read, nullptr, main_children, main_size
+const Kate::MenuItem Kate::MAIN_MENU = {
+    "Главное меню", Kate::read, nullptr,
+    2, {&Kate::RUSSIAN_WRITERS, &Kate::EXIT}
 };
+
+const Kate::MenuItem* Kate::CURRENT_MENU = &Kate::MAIN_MENU;
