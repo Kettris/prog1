@@ -1,6 +1,0 @@
-projects(Quick_Sort_test)
-
-add_library(Quick_Sort_lib "")
-
-add_subdirectory(scr)
-add_subdirectory(test)
