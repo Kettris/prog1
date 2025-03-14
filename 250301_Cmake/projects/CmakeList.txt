@@ -1,0 +1,13 @@
+cmake_minimum_required(VERSOIN 3.2...3.27.5)
+
+project(250301_Cmake) //s
+
+enable_testing()
+add_subdirectory(lib/googletest)
+
+
+add_subdirectory(multi_level_menu)
+add_subdirectory(Quick_Sort)
+add_subdirectory(Quick_Sort_test)
+
+set(CMAKE_SUPPERSS_REGENERATION true)
