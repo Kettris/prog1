@@ -1,0 +1,10 @@
+target_sources(Quick_Sort_lib
+	PRIVATE
+		quick_sort.cpp
+	PUBLIC
+		quick_sort.hpp
+)
+
+target_include_directories(Quick_Sort_lib PUBLIC
+	"${PROJECT_SOURCE_DIR}/src"
+)

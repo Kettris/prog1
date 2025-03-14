@@ -1,12 +1,5 @@
-cmake_minum_required(VERSOIN 3.2...3.27.5)
+progect (multi_level_menu)
 
-project (prog1)
+add_executable (${PROJECT_NAME} main.cpp)
 
-enable_teasting()
-add_subdirectory (lib/googltest)
-
-add_subdirectory(250301multi_lv_menu_v2) 
-add_subdirectory(241216_Quick_Sort)
-
-
-set(CMAKE_SUPPERSS_REGENERATION true)
+add_subdirectory (includes)

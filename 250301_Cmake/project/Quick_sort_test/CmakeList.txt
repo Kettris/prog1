@@ -1,0 +1,6 @@
+projects(Quick_sort_test)
+
+add_library(Quick_sort_lib "")
+
+add_subdirectory(scr)
+add_subdirectory(test)

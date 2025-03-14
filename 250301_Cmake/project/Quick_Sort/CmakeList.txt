@@ -1,3 +1,5 @@
-projects (Quick_Sort)
+projects(Quick_Sort)
 
-add_execuable (${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME} main.cpp)
+
+add_subdirectory(includes)
