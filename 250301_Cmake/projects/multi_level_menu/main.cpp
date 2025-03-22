@@ -1,5 +1,7 @@
 ﻿#include <iostream>
-#include "includes/menu_items.hpp"
+#include "menu_items.hpp"
+
+
 
 int main() {
     const Kate::MenuItem* current_menu = &Kate::MAIN_MENU;
