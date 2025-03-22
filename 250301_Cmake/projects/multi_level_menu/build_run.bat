@@ -1,5 +1,4 @@
 @echo off
-chcp 65001 > log
-del log
-
-multi_level_menu.exe
+chcp 65001
+.\multi_level_menu.exe
+pause

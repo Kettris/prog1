@@ -6,4 +6,4 @@ namespace sortings {
     int* quick_sort(const int* const arr, const int size);
 }
 
-#endif // TEST_QUICKSORT_HPP
+#endif

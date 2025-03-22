@@ -1,14 +1,11 @@
 ﻿#include <iostream>
-#include "menu.hpp"
-#include "menu_items.hpp"
-#include "menu_functions.hpp"
+#include "includes/menu_items.hpp"
 
 int main() {
     const Kate::MenuItem* current_menu = &Kate::MAIN_MENU;
-
-    while (true) {
+    
+	while (true) {
         current_menu = current_menu->action(current_menu);
     }
-
     return 0;
 }

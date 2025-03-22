@@ -2,7 +2,7 @@ set(SOURCES
 	test_QuickSort.cpp
 )
 
-add_executable(test_QuickSort ${SOURCER})
+add_executable(test_QuickSort ${SOURCES})
 target_link_libraries(test_QuickSort
 	gtest_main
 	gmock_main
