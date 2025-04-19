@@ -1,13 +1,15 @@
 #pragma once
 #include <iostream>
+#include <stdexcept> //для ошибок 
+#include <cstring> //для памти и с
 
 namespace biv {
 
 	class LongNumber {
 	private:
     	int* numbers; // хранит цифры
-    	int length;   // длина числа
-    	int sign;     // знак числа: 1 для положительного, -1 для отрицательного
+    	int length; // длина числа
+    	int sign;  // знак числа: 1 для положительного, -1 для отрицательного
 
 	public:
     	LongNumber();
@@ -33,7 +35,7 @@ namespace biv {
 		LongNumber operator % (const LongNumber& x) const;
 
 		int get_digits_number() const noexcept;
-		int get_rank_number(const int rank) const; //int get_rank_number(int rank) const;
+		int get_rank_number(const int rank) const;
 		bool is_negative() const noexcept;
 
 		friend std::ostream& operator<<(std::ostream &os, const LongNumber& x);

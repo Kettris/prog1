@@ -194,12 +194,6 @@ LongNumber LongNumber::operator + (const LongNumber& x) const {
     int abs_this_length = length;
     int abs_x_length = x.length;
 
-    // разный знак
-//    if (sign != x.sign) {
-//        LongNumber temp = x;
-//        temp.sign = -x.sign; 
-//        return *this - temp; 
-//    }
     if (sign != x.sign) {
         if (sign == -1) {
             LongNumber pos = *this;// -++=+-
@@ -318,151 +312,182 @@ LongNumber LongNumber::operator - (const LongNumber& x) const {
     return result;
 }
 
-
-// умножение
-LongNumber LongNumber::operator * (const LongNumber& x) const {
-    // Проверка на ноль
+// Умножение
+LongNumber LongNumber::operator*(const LongNumber& x) const {
+   
+    //проверка на ноль
     if (length == 0 || x.length == 0) {
-        return LongNumber("0"); // Умножение на ноль
+        return LongNumber("0");
     }
-    
-    
 
-    // Длина результата
-    int result_length = length + x.length; 
-    int* result_numbers = new int[result_length](); 
+    //знак и длина результата
+    int result_sign = sign * x.sign;
+    int result_length = length + x.length;
+    int* result_numbers = new int[result_length]();
 
-    // Умножаем числа
-    for (int i = 0; i < length; ++i) {
-        for (int j = 0; j < x.length; ++j) {
-            // Умнож разряды и перенос в след
-            result_numbers[result_length - 1 - (i + j)] += numbers[length - 1 - i] * x.numbers[x.length - 1 - j];
-            result_numbers[result_length - 1 - (i + j)] += result_numbers[result_length - 1 - (i + j + 1)] / 10;
-            result_numbers[result_length - 1 - (i + j + 1)] = result_numbers[result_length - 1 - (i + j)] % 10;
+    //разрядное умножение
+    for (int i = length - 1; i >= 0; --i) {
+        for (int j = x.length - 1; j >= 0; --j) {
+            result_numbers[i + j + 1] += numbers[i] * x.numbers[j];
         }
     }
 
-    // Создаем результат
-    LongNumber result;
-    int start_index = 0;
-
-    // Пропускаем начальные нули
-    while (start_index < result_length - 1 && result_numbers[start_index] == 0) {
-        start_index++;
+    //перенос
+    for (int i = result_length - 1; i > 0; --i) {
+        result_numbers[i - 1] += result_numbers[i] / 10;
+        result_numbers[i] %= 10;
     }
 
-    // Устанавливаем длину результата
+    //определение длины результата
+    LongNumber result;
+    int start_index = 0;
+    while (start_index < result_length && result_numbers[start_index] == 0) {
+        start_index++;
+    }
     result.length = result_length - start_index;
 
-    // Если длина равна 0, значит результат равен 0
+    //если длина 0, то возвращаем 0
     if (result.length == 0) {
         delete[] result_numbers;
-        result.numbers = nullptr; // Знак для 0
+        result.numbers = nullptr;
         result.sign = 1; 
         return result;
     }
 
-    // Копируем результат
     result.numbers = new int[result.length];
     for (int i = 0; i < result.length; ++i) {
         result.numbers[i] = result_numbers[start_index + i];
     }
 
-    // Рассчитываем знак результата
-    result.sign = (sign * x.sign);
-
-    delete[] result_numbers; // Освобождаем память
+    // Устанавливаем знак результата
+    result.sign = result_sign;
+    delete[] result_numbers;
     return result;
 }
 
-// деление
+// Деление
 LongNumber LongNumber::operator/(const LongNumber& x) const {
+    
+    // Проверка на деление на ноль
     if (x.length == 0 || (x.length == 1 && x.numbers[0] == 0)) {
         throw std::invalid_argument("Деление на ноль");
     }
 
-    LongNumber result;
-    result.sign = sign * x.sign;
-    result.numbers = new int[length]();
-    result.length = length;
+    LongNumber divisor = x;//делитель
+    LongNumber dividend = *this;//делимое
 
-    LongNumber remainder = *this;
-    remainder.sign = 1;
+    //знак результата
+    int sign_result = (sign == divisor.sign) ? 1 : -1;
 
-    for (int i = length - 1; i >= 0; --i) {
-            // Добавляем очередную цифру к остатку
-        LongNumber temp("0"); // создаем временно LongNumber из "0"
-        temp.numbers[0] = numbers[i]; // добавляем текущую цифру
-        temp.length = 1;
-        remainder = remainder * LongNumber("10") + temp;
-        int count = 0;
-        while (remainder >= x) {
-            remainder = remainder - x;
-            count++;
+    //приводим к полож числам
+    dividend.sign = 1;
+    divisor.sign = 1;
+
+    //если делимое меньше делителя, результат - 0
+    if (dividend < divisor) {
+        return LongNumber("0");
+    }
+
+    LongNumber quotient("0");
+    LongNumber one("1");
+
+    //цикл деления 
+    while (dividend >= divisor) {
+        dividend = dividend - divisor; //уменьшение
+        quotient = quotient + one;
+    }
+
+    // удаляем начальные нули
+    if (quotient.length == 0) {
+        quotient = LongNumber("0");
+    }
+
+    // устанавливаем знак у результата деления
+    quotient.sign = sign_result;
+
+    return quotient;
+}
+
+
+// Деление с остатком
+LongNumber LongNumber::operator%(const LongNumber& x) const {
+    // Проверка на деление на ноль
+    if (x.length == 0 || (x.length == 1 && x.numbers[0] == 0)) {
+        throw std::invalid_argument("Деление на ноль");
+    }
+
+    LongNumber divisor = x;        // Делитель
+    LongNumber dividend = *this;   // Делимое
+
+    // Проверка на случай, если делимое меньше делителя
+    if (dividend < divisor && dividend.sign >= 0) {
+        return dividend; // Остаток равен делимому
+    }
+
+    // Находим частное
+    LongNumber quotient = dividend / divisor;
+
+    // Находим произведение частного и делителя
+    LongNumber product = quotient * divisor;
+
+    // Вычисляем остаток
+    LongNumber toReturn = dividend - product;
+
+    // Если остаток отрицательный, изменим его на положительный
+    if (toReturn.sign < 0) {
+        if (divisor.sign < 0) {
+            toReturn = toReturn + (-divisor);
+        } else {
+            toReturn = toReturn + divisor;
         }
-        result.numbers[i] = count;
     }
 
-    while (result.length > 1 && result.numbers[result.length - 1] == 0) {
-        result.length--;
+    return toReturn; // Возвращаем остаток
+}
+
+    bool LongNumber::is_negative() const noexcept {
+        return sign == -1;
     }
 
-    return result;
-}
-    
 
-// с остатком
-LongNumber LongNumber::operator % (const LongNumber& x) const {
-    LongNumber quotient = *this / x;
-    LongNumber product = quotient * x;
-    return *this - product;
-}
+    int LongNumber::get_length(const char* const str) const noexcept {
+        if (str == nullptr) return 0;
+        return std::strlen(str);
+    }
 
 
+    void LongNumber::allocate_and_copy(const int* data, int len) {
+        if (len > 0) {
+            numbers = new int[len];
+            std::memcpy(numbers, data, len * sizeof(int));
+        } else {
+            numbers = nullptr;
+        }
+        length = len;
+    }
 
-bool LongNumber::is_negative() const noexcept {
-    return sign == -1;
-}
 
-
-int LongNumber::get_length(const char* const str) const noexcept {
-    if (str == nullptr) return 0;
-    return std::strlen(str);
-}
-
-
-void LongNumber::allocate_and_copy(const int* data, int len) {
-    if (len > 0) {
-        numbers = new int[len];
-        std::memcpy(numbers, data, len * sizeof(int));
-    } else {
+    void LongNumber::free_memory() noexcept {
+        delete[] numbers;
         numbers = nullptr;
+        length = 0;
     }
-    length = len;
-}
 
+    // для обработки операций вывода
+    namespace biv {
 
-void LongNumber::free_memory() noexcept {
-    delete[] numbers;
-    numbers = nullptr;
-    length = 0;
-}
-
-// для обработки операций вывода
-namespace biv {
-
-std::ostream& operator<<(std::ostream &os, const LongNumber& x) { 
-    if (x.numbers == nullptr || x.length == 0) {
-        os << "0";
+    std::ostream& operator<<(std::ostream &os, const LongNumber& x) { 
+        if (x.numbers == nullptr || x.length == 0) {
+            os << "0";
+            return os;
+        }
+        if (x.sign == -1) {
+            os << "-";
+        }
+        for (int i = 0; i < x.length; ++i) {
+            os << x.numbers[i];
+        }
         return os;
     }
-    if (x.sign == -1) {
-        os << "-";
-    }
-    for (int i = 0; i < x.length; ++i) {
-        os << x.numbers[i];
-    }
-    return os;
-}
 
-} 
+    } 
