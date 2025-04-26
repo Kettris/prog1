@@ -416,7 +416,7 @@ LongNumber LongNumber::operator%(const LongNumber& x) const {
     LongNumber divisor = x; // делитель
     LongNumber dividend = *this; // делимое
 
-    // Переводим числа в положительные
+    //перево числа в положительные
     LongNumber absDividend = dividend;
     LongNumber absDivisor = divisor;
 
