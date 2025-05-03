@@ -13,7 +13,7 @@ namespace biv {
                     Node* prev = nullptr;
                     Node* next = nullptr;
 
-                    Node(const T& value);
+                    Node(const T& value) : value(value) {}
                     Node(const Node&) = delete;
                     Node& operator = (const Node&) = delete;
             };
@@ -23,7 +23,7 @@ namespace biv {
             std::size_t size = 0;
 
         public:
-            DoublyLinkedList() noexcept;
+            DoublyLinkedList() noexcept = default;
             DoublyLinkedList(const DoublyLinkedList&) = delete;
             DoublyLinkedList& operator = (const DoublyLinkedList&) = delete;
             ~DoublyLinkedList();
@@ -33,5 +33,6 @@ namespace biv {
             void print() const noexcept;
             void push_back(const T& value);
             bool remove_first(const T& value) noexcept;
+            bool remove_last() noexcept;
     };
 }
